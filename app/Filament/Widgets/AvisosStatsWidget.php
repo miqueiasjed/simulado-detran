@@ -10,10 +10,18 @@ class AvisosStatsWidget extends BaseWidget
 {
     protected function getStats(): array
     {
-        $totalAvisos = Aviso::count();
-        $avisosAtivos = Aviso::where('ativo', true)->count();
-        $avisosPopup = Aviso::where('mostrar_popup', true)->where('ativo', true)->count();
-        $avisosHoje = Aviso::whereDate('created_at', today())->count();
+        try {
+            $totalAvisos = Aviso::count();
+            $avisosAtivos = Aviso::where('ativo', true)->count();
+            $avisosPopup = Aviso::where('mostrar_popup', true)->where('ativo', true)->count();
+            $avisosHoje = Aviso::whereDate('created_at', today())->count();
+        } catch (\Exception $e) {
+            // Se a tabela não existir ou houver erro, retorna zeros
+            $totalAvisos = 0;
+            $avisosAtivos = 0;
+            $avisosPopup = 0;
+            $avisosHoje = 0;
+        }
 
         return [
             Stat::make('Total de Avisos', $totalAvisos)

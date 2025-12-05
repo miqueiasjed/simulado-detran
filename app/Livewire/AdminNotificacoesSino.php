@@ -24,49 +24,57 @@ class AdminNotificacoesSino extends Component
 
     public function carregarAvisos()
     {
-        $user = Auth::user();
-        
-        $this->avisos = Aviso::where('ativo', true)
-            ->where(function ($query) use ($user) {
-                $query->whereJsonContains('destinatarios', $user->tipo)
-                      ->orWhereJsonContains('destinatarios', 'todos');
-            })
-            ->where(function ($query) {
-                $query->whereNull('data_inicio')
-                      ->orWhere('data_inicio', '<=', now());
-            })
-            ->where(function ($query) {
-                $query->whereNull('data_fim')
-                      ->orWhere('data_fim', '>=', now());
-            })
-            ->orderBy('created_at', 'desc')
-            ->limit(20)
-            ->get()
-            ->toArray();
+        try {
+            $user = Auth::user();
+            
+            $this->avisos = Aviso::where('ativo', true)
+                ->where(function ($query) use ($user) {
+                    $query->whereJsonContains('destinatarios', $user->tipo)
+                          ->orWhereJsonContains('destinatarios', 'todos');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('data_inicio')
+                          ->orWhere('data_inicio', '<=', now());
+                })
+                ->where(function ($query) {
+                    $query->whereNull('data_fim')
+                          ->orWhere('data_fim', '>=', now());
+                })
+                ->orderBy('created_at', 'desc')
+                ->limit(20)
+                ->get()
+                ->toArray();
+        } catch (\Exception $e) {
+            $this->avisos = [];
+        }
     }
 
     public function contarNaoLidos()
     {
-        $user = Auth::user();
-        
-        $this->avisosNaoLidos = Aviso::where('ativo', true)
-            ->where(function ($query) use ($user) {
-                $query->whereJsonContains('destinatarios', $user->tipo)
-                      ->orWhereJsonContains('destinatarios', 'todos');
-            })
-            ->where(function ($query) {
-                $query->whereNull('data_inicio')
-                      ->orWhere('data_inicio', '<=', now());
-            })
-            ->where(function ($query) {
-                $query->whereNull('data_fim')
-                      ->orWhere('data_fim', '>=', now());
-            })
-            ->whereDoesntHave('users', function ($query) use ($user) {
-                $query->where('user_id', $user->id)
-                      ->whereNotNull('lido_em');
-            })
-            ->count();
+        try {
+            $user = Auth::user();
+            
+            $this->avisosNaoLidos = Aviso::where('ativo', true)
+                ->where(function ($query) use ($user) {
+                    $query->whereJsonContains('destinatarios', $user->tipo)
+                          ->orWhereJsonContains('destinatarios', 'todos');
+                })
+                ->where(function ($query) {
+                    $query->whereNull('data_inicio')
+                          ->orWhere('data_inicio', '<=', now());
+                })
+                ->where(function ($query) {
+                    $query->whereNull('data_fim')
+                          ->orWhere('data_fim', '>=', now());
+                })
+                ->whereDoesntHave('users', function ($query) use ($user) {
+                    $query->where('user_id', $user->id)
+                          ->whereNotNull('lido_em');
+                })
+                ->count();
+        } catch (\Exception $e) {
+            $this->avisosNaoLidos = 0;
+        }
     }
 
     public function abrirModal()
