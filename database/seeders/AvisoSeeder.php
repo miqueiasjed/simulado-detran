@@ -12,7 +12,7 @@ class AvisoSeeder extends Seeder
      */
     public function run(): void
     {
-        // Aviso de boas-vindas para todos
+        // Aviso de boas-vindas para todoss
         Aviso::create([
             'titulo' => 'Bem-vindo ao Sistema de Simulados DETRAN!',
             'conteudo' => '<p>Seja bem-vindo ao nosso sistema de simulados para o DETRAN. Aqui você pode:</p><ul><li>Realizar simulados para testar seus conhecimentos</li><li>Acompanhar seu progresso</li><li>Ver seus resultados detalhados</li><li>Estudar com questões organizadas por categoria</li></ul><p>Boa sorte nos seus estudos!</p>',
@@ -79,4 +79,4 @@ class AvisoSeeder extends Seeder
             'cor_texto' => '#065f46',
         ]);
     }
-} 
+}
