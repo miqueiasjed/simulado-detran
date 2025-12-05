@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminAccessMiddleware
@@ -16,23 +17,36 @@ class AdminAccessMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Permitir acesso à rota de login do Filament (não verificar admin antes de autenticar)
+        if ($request->is('admin/login') || $request->is('admin/login/*')) {
+            return $next($request);
+        }
+
         // Verificar se o usuário está autenticado
         if (!Auth::check()) {
             // Para requisições AJAX/API, retornar 401 em vez de redirect
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json(['message' => 'Não autenticado'], 401);
             }
-            return redirect()->route('login');
+            return redirect()->route('filament.admin.auth.login');
         }
 
-        $user = Auth::user();
-        
-        // Recarregar o usuário do banco para garantir que temos os dados mais recentes
+        // Buscar o usuário diretamente do banco para garantir dados atualizados
         // Isso é importante em produção onde pode haver cache de sessão
-        $user->refresh();
-        
+        try {
+            $user = \App\Models\User::find(Auth::id());
+            if (!$user) {
+                Auth::logout();
+                return redirect()->route('filament.admin.auth.login');
+            }
+        } catch (\Exception $e) {
+            // Se houver erro, usar o usuário da sessão
+            Log::warning('Erro ao buscar usuário no AdminAccessMiddleware: ' . $e->getMessage());
+            $user = Auth::user();
+        }
+
         // Verificar se o campo tipo existe e se o usuário é admin
-        if (!$user->tipo || $user->tipo !== 'admin') {
+        if (!$user || !$user->tipo || $user->tipo !== 'admin') {
             // Para requisições AJAX/API, retornar 403 em vez de redirect
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json([
@@ -47,4 +61,4 @@ class AdminAccessMiddleware
         // Se for admin, permitir acesso
         return $next($request);
     }
-} 
+}
