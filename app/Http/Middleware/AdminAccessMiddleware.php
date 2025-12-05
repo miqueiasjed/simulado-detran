@@ -25,11 +25,20 @@ class AdminAccessMiddleware
             return redirect()->route('login');
         }
 
-        // Verificar se o usuário é admin
-        if (Auth::user()->tipo !== 'admin') {
+        $user = Auth::user();
+        
+        // Recarregar o usuário do banco para garantir que temos os dados mais recentes
+        // Isso é importante em produção onde pode haver cache de sessão
+        $user->refresh();
+        
+        // Verificar se o campo tipo existe e se o usuário é admin
+        if (!$user->tipo || $user->tipo !== 'admin') {
             // Para requisições AJAX/API, retornar 403 em vez de redirect
             if ($request->expectsJson() || $request->ajax()) {
-                return response()->json(['message' => 'Acesso negado. Apenas administradores podem acessar o painel administrativo.'], 403);
+                return response()->json([
+                    'message' => 'Acesso negado. Apenas administradores podem acessar o painel administrativo.',
+                    'user_tipo' => $user->tipo ?? 'null'
+                ], 403);
             }
             // Se não for admin, redirecionar para a página inicial com mensagem de erro
             return redirect('/')->with('error', 'Acesso negado. Apenas administradores podem acessar o painel administrativo.');
