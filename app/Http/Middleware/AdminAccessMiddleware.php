@@ -17,9 +17,18 @@ class AdminAccessMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Permitir acesso à rota de login do Filament (não verificar admin antes de autenticar)
-        if ($request->is('admin/login') || $request->is('admin/login/*')) {
-            return $next($request);
+        // Permitir acesso a todas as rotas de autenticação do Filament
+        $authRoutes = [
+            'admin/login',
+            'admin/logout',
+            'admin/password/reset',
+            'admin/password/confirm',
+        ];
+
+        foreach ($authRoutes as $route) {
+            if ($request->is($route) || $request->is($route . '/*')) {
+                return $next($request);
+            }
         }
 
         // Verificar se o usuário está autenticado
@@ -28,7 +37,8 @@ class AdminAccessMiddleware
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json(['message' => 'Não autenticado'], 401);
             }
-            return redirect()->route('filament.admin.auth.login');
+            // Redirecionar para login do Filament (sempre usar redirect, nunca 403)
+            return redirect()->to('/admin/login');
         }
 
         // Buscar o usuário diretamente do banco para garantir dados atualizados
@@ -47,6 +57,14 @@ class AdminAccessMiddleware
 
         // Verificar se o campo tipo existe e se o usuário é admin
         if (!$user || !$user->tipo || $user->tipo !== 'admin') {
+            // Log para debug
+            Log::warning('Tentativa de acesso ao admin por usuário não-admin', [
+                'user_id' => $user->id ?? 'null',
+                'user_email' => $user->email ?? 'null',
+                'user_tipo' => $user->tipo ?? 'null',
+                'path' => $request->path(),
+            ]);
+
             // Para requisições AJAX/API, retornar 403 em vez de redirect
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json([
@@ -54,8 +72,14 @@ class AdminAccessMiddleware
                     'user_tipo' => $user->tipo ?? 'null'
                 ], 403);
             }
-            // Se não for admin, redirecionar para a página inicial com mensagem de erro
-            return redirect('/')->with('error', 'Acesso negado. Apenas administradores podem acessar o painel administrativo.');
+
+            // Fazer logout e redirecionar para login
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('filament.admin.auth.login')
+                ->with('error', 'Acesso negado. Apenas administradores podem acessar o painel administrativo.');
         }
 
         // Se for admin, permitir acesso
