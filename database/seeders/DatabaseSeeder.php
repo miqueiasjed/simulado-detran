@@ -13,21 +13,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Cria 2 admins fixos sem usar faker
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('password'),
-            'tipo' => 'admin',
-            'email_verified_at' => now(),
-        ]);
-        User::create([
-            'name' => 'Admin 2',
-            'email' => 'admin2@admin.com',
-            'password' => Hash::make('password'),
-            'tipo' => 'admin',
-            'email_verified_at' => now(),
-        ]);
+        // Cria ou atualiza 2 admins fixos sem usar faker
+        // Usa updateOrCreate para garantir que o tipo seja sempre 'admin'
+        User::updateOrCreate(
+            ['email' => 'admin@admin.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('password'),
+                'tipo' => 'admin',
+                'email_verified_at' => now(),
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'admin2@admin.com'],
+            [
+                'name' => 'Admin 2',
+                'password' => Hash::make('password'),
+                'tipo' => 'admin',
+                'email_verified_at' => now(),
+            ]
+        );
 
         // Cria 10 alunos
         // User::factory(10)->create(['tipo' => 'aluno']);
