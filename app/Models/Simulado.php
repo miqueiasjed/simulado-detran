@@ -17,11 +17,13 @@ class Simulado extends Model
         'descricao',
         'tempo_limite',
         'numero_questoes',
+        'nota_minima_aprovacao',
         'ativo'
     ];
 
     protected $casts = [
         'ativo' => 'boolean',
+        'nota_minima_aprovacao' => 'decimal:1',
     ];
 
     public function questoes(): BelongsToMany
@@ -66,5 +68,57 @@ class Simulado extends Model
         }
         
         return $questoes->shuffle();
+    }
+
+    /**
+     * Calcula a média de notas de todas as tentativas finalizadas deste simulado
+     */
+    public function getMediaNotas(): float
+    {
+        $tentativas = $this->tentativas()
+            ->where('status', 'finalizada')
+            ->whereNotNull('finalizado_em')
+            ->get();
+
+        if ($tentativas->isEmpty()) {
+            return 0.0;
+        }
+
+        $somaNotas = $tentativas->sum(function ($tentativa) {
+            return $tentativa->getNota();
+        });
+
+        return round($somaNotas / $tentativas->count(), 1);
+    }
+
+    /**
+     * Retorna a quantidade de tentativas finalizadas
+     */
+    public function getTotalTentativas(): int
+    {
+        return $this->tentativas()
+            ->where('status', 'finalizada')
+            ->whereNotNull('finalizado_em')
+            ->count();
+    }
+
+    /**
+     * Verifica se uma nota é suficiente para aprovação
+     */
+    public function isAprovado(float $nota): bool
+    {
+        // Proteção contra NULL: se nota_minima_aprovacao for NULL, usar padrão de 7.0
+        $notaMinima = $this->nota_minima_aprovacao !== null ? (float) $this->nota_minima_aprovacao : 7.0;
+        return $nota >= $notaMinima;
+    }
+
+    /**
+     * Retorna a nota mínima formatada
+     */
+    public function getNotaMinimaFormatada(): string
+    {
+        // Proteção contra NULL: usar a mesma lógica de isAprovado() para consistência
+        $notaMinima = $this->nota_minima_aprovacao !== null ? (float) $this->nota_minima_aprovacao : 7.0;
+        return number_format($notaMinima, 1, ',', '.');
     }
 }

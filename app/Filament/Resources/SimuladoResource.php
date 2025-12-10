@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SimuladoResource extends Resource
@@ -45,7 +46,7 @@ class SimuladoResource extends Resource
                             ->rows(3)
                             ->maxLength(1000),
                         
-                        Forms\Components\Grid::make(2)
+                        Forms\Components\Grid::make(3)
                             ->schema([
                                 Forms\Components\TextInput::make('tempo_limite')
                                     ->label('Tempo Limite (minutos)')
@@ -60,6 +61,24 @@ class SimuladoResource extends Resource
                                     ->default(30)
                                     ->minValue(1)
                                     ->required(),
+                                
+                                Forms\Components\TextInput::make('nota_minima_aprovacao')
+                                    ->label('Nota Mínima para Aprovação')
+                                    ->numeric()
+                                    ->default(7.0)
+                                    ->minValue(0)
+                                    ->maxValue(10)
+                                    ->step(0.1)
+                                    ->suffix('/10')
+                                    ->helperText('Nota mínima (0-10) que o aluno precisa atingir para ser aprovado')
+                                    ->rules([
+                                        'required',
+                                        'numeric',
+                                        'min:0',
+                                        'max:10',
+                                        'regex:/^\d+(\.\d)?$/',
+                                    ])
+                                    ->required(),
                             ]),
                         
                         Forms\Components\Toggle::make('ativo')
@@ -72,6 +91,22 @@ class SimuladoResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                // Adicionar subqueries para calcular média e total de tentativas de uma vez
+                // Isso evita N+1 queries ao calcular a média para cada simulado
+                $query->withCount([
+                    'tentativas as total_tentativas' => function ($q) {
+                        $q->where('status', 'finalizada')
+                          ->whereNotNull('finalizado_em');
+                    }
+                ])->addSelect(DB::raw('(
+                    SELECT COALESCE(ROUND(AVG(pontuacao / 10.0), 1), 0)
+                    FROM tentativas
+                    WHERE tentativas.simulado_id = simulados.id
+                    AND tentativas.status = \'finalizada\'
+                    AND tentativas.finalizado_em IS NOT NULL
+                ) as media_notas_calculada'));
+            })
             ->columns([
                 Tables\Columns\TextColumn::make('titulo')
                     ->label('Título')
@@ -93,6 +128,26 @@ class SimuladoResource extends Resource
                 Tables\Columns\TextColumn::make('questoes_count')
                     ->label('Questões Configuradas')
                     ->counts('questoes'),
+                Tables\Columns\TextColumn::make('nota_minima_aprovacao')
+                    ->label('Nota Mínima')
+                    ->formatStateUsing(function ($state) {
+                        // Proteção contra NULL: usar a mesma lógica de isAprovado() para consistência
+                        $notaMinima = $state !== null ? (float) $state : 7.0;
+                        return number_format($notaMinima, 1, ',', '.') . '/10';
+                    })
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('media_notas')
+                    ->label('Média Geral')
+                    ->state(function (Simulado $record): string {
+                        $total = $record->total_tentativas ?? 0;
+                        $media = $record->media_notas_calculada ?? 0.0;
+                        
+                        if ($total === 0) {
+                            return 'Sem tentativas';
+                        }
+                        return number_format($media, 1, ',', '.') . '/10 (' . $total . ' tentativas)';
+                    })
+                    ->sortable(false),
             ])
             ->filters([
                 Tables\Filters\TernaryFilter::make('ativo')

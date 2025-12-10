@@ -35,16 +35,106 @@
                 </div>
             </div>
 
+            {{-- Feedback da Média do Simulado --}}
+            @if($totalTentativas > 0)
+                <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-6 mb-6 border border-indigo-200 dark:border-indigo-700 overflow-hidden relative">
+                    {{-- Decorative elements --}}
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between flex-wrap gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-lg">
+                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white/90 mb-1">Média Geral do Simulado</h3>
+                                    <p class="text-white/70 text-sm">Baseada em {{ $totalTentativas }} {{ $totalTentativas == 1 ? 'tentativa' : 'tentativas' }} realizadas</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-4xl font-bold text-white mb-1">{{ number_format($mediaSimulado, 1, ',', '.') }}</div>
+                                <div class="text-white/80 text-sm font-medium">de 10,0</div>
+                            </div>
+                        </div>
+                        
+                        {{-- Barra de progresso visual --}}
+                        <div class="mt-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-white/80 text-sm font-medium">Comparação com sua nota</span>
+                                <span class="text-white/80 text-sm font-medium">
+                                    @if($resultado['nota'] >= $mediaSimulado)
+                                        <span class="inline-flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Acima da média
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1">
+                                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Abaixo da média
+                                        </span>
+                                    @endif
+                                </span>
+                            </div>
+                            <div class="w-full bg-white/20 rounded-full h-3 overflow-hidden">
+                                <div class="h-full bg-white rounded-full transition-all duration-500" style="width: {{ ($mediaSimulado / 10) * 100 }}%"></div>
+                            </div>
+                            <div class="flex justify-between mt-2 text-xs text-white/70">
+                                <span>Sua nota: {{ number_format($resultado['nota'], 1, ',', '.') }}</span>
+                                <span>Média: {{ number_format($mediaSimulado, 1, ',', '.') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                {{-- Mensagem quando não há tentativas ainda --}}
+                <div class="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-600">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Média do Simulado</h3>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">A média será calculada após outras tentativas serem realizadas</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             {{-- Resultados --}}
             <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
-                <div class="bg-gradient-to-r from-emerald-500 to-teal-600 p-8 text-center text-white">
+                <div class="bg-gradient-to-r {{ $resultado['aprovado'] ? 'from-emerald-500 to-teal-600' : 'from-red-500 to-orange-600' }} p-8 text-center text-white">
                     <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                        </svg>
+                        @if($resultado['aprovado'])
+                            <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            </svg>
+                        @endif
                     </div>
-                    <h2 class="text-3xl font-bold mb-2">Resultado do Simulado</h2>
-                    <p class="text-xl opacity-90">Revisão completa das suas respostas</p>
+                    <h2 class="text-3xl font-bold mb-2">
+                        @if($resultado['aprovado'])
+                            Parabéns! Você foi Aprovado!
+                        @else
+                            Você não atingiu a nota mínima
+                        @endif
+                    </h2>
+                    <p class="text-xl opacity-90">
+                        Sua nota: <span class="font-bold">{{ number_format($resultado['nota'], 1, ',', '.') }}</span> / 
+                        Nota mínima: <span class="font-bold">{{ number_format($resultado['nota_minima'], 1, ',', '.') }}</span>
+                    </p>
                 </div>
                 
                 <div class="p-8">
@@ -91,6 +181,50 @@
                                 {{-- Métricas Principais --}}
                                 <div>
                                     <h4 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Métricas Principais</h4>
+                                    
+                                    {{-- Card de Aprovação --}}
+                                    <div class="mb-6 {{ $resultado['aprovado'] ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' }} rounded-2xl p-6 border-2">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-4">
+                                                <div class="w-16 h-16 {{ $resultado['aprovado'] ? 'bg-emerald-500' : 'bg-red-500' }} rounded-xl flex items-center justify-center">
+                                                    @if($resultado['aprovado'])
+                                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                    @else
+                                                        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                    @endif
+                                                </div>
+                                                <div>
+                                                    <h5 class="text-lg font-bold {{ $resultado['aprovado'] ? 'text-emerald-800 dark:text-emerald-200' : 'text-red-800 dark:text-red-200' }}">
+                                                        @if($resultado['aprovado'])
+                                                            Aprovado!
+                                                        @else
+                                                            Não Aprovado
+                                                        @endif
+                                                    </h5>
+                                                    <p class="text-sm {{ $resultado['aprovado'] ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-700 dark:text-red-300' }}">
+                                                        @if($resultado['aprovado'])
+                                                            Você atingiu a nota mínima necessária
+                                                        @else
+                                                            Você precisa de {{ number_format($resultado['nota_minima'], 1, ',', '.') }} para ser aprovado
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-3xl font-bold {{ $resultado['aprovado'] ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">
+                                                    {{ number_format($resultado['nota'], 1, ',', '.') }}
+                                                </div>
+                                                <div class="text-sm {{ $resultado['aprovado'] ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">
+                                                    de {{ number_format($resultado['nota_minima'], 1, ',', '.') }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                                         <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-6 text-center border border-emerald-200 dark:border-emerald-800">
                                             <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">{{ $resultado['acertos'] }}</div>

@@ -1,6 +1,29 @@
 <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
     <div class="container mx-auto px-3 sm:px-4 py-3 sm:py-6 max-w-4xl">
         
+        {{-- Feedback da Média Mínima --}}
+        @if(!$finalizado && $total > 0 && isset($simulado))
+            @php
+                // Usar !== null para tratar 0.0 como valor válido
+                $notaMinima = $simulado->nota_minima_aprovacao !== null ? (float) $simulado->nota_minima_aprovacao : 7.0;
+            @endphp
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-5 mb-4 sm:mb-6 border border-blue-200 dark:border-blue-800">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                        <svg class="w-6 h-6 sm:w-7 sm:h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-gray-100 mb-1">Meta para Aprovação</h3>
+                        <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                            Você precisa atingir nota mínima de <span class="font-bold text-blue-600 dark:text-blue-400 text-lg">{{ number_format($notaMinima, 1, ',', '.') }}</span> para ser aprovado neste simulado
+                        </p>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         {{-- Cronômetro na parte superior --}}
         @if(!$finalizado && $total > 0)
             <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-gray-100 dark:border-gray-700">

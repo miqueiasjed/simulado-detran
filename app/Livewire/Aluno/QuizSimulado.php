@@ -6,6 +6,7 @@ use App\Models\Simulado;
 use App\Models\Questao;
 use App\Models\Tentativa;
 use App\Models\Resposta;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -23,13 +24,15 @@ class QuizSimulado extends Component
     public $tempoLimite;
     public $tempoRestante;
 
+    public $simulado;
+    
     public function mount($simuladoId)
     {
         $this->simuladoId = $simuladoId;
-        $simulado = Simulado::with('questoes')->findOrFail($simuladoId);
-        $this->questoes = $simulado->questoes->toArray();
+        $this->simulado = Simulado::with('questoes')->findOrFail($simuladoId);
+        $this->questoes = $this->simulado->questoes->toArray();
         $this->statusQuestoes = array_fill(0, count($this->questoes), 'nao_respondida');
-        $this->tempoLimite = (int) ($simulado->tempo_limite * 60);
+        $this->tempoLimite = (int) ($this->simulado->tempo_limite * 60);
         
         // Verificar se já existe um resultado em andamento
         $resultadoExistente = Tentativa::where('user_id', Auth::id())
@@ -40,7 +43,8 @@ class QuizSimulado extends Component
         if ($resultadoExistente) {
             // Carregar resultado existente
             $this->tentativaId = $resultadoExistente->id;
-            $this->tempoInicio = $resultadoExistente->iniciado_em;
+            // Garantir que tempoInicio seja sempre um objeto Carbon para evitar problemas de serialização do Livewire
+            $this->tempoInicio = Carbon::parse($resultadoExistente->iniciado_em);
             
             $respostasSalvas = Resposta::where('tentativa_id', $resultadoExistente->id)->get();
             foreach ($respostasSalvas as $resposta) {
@@ -66,15 +70,23 @@ class QuizSimulado extends Component
             }
         } else {
             // Criar novo resultado
+            // Capturar timestamp antes de qualquer operação de banco para evitar perda de tempo
+            $tempoInicioExato = Carbon::now();
+            $this->tempoInicio = $tempoInicioExato;
             $this->tentativaId = Tentativa::create([
                 'user_id' => Auth::id(),
                 'simulado_id' => $this->simuladoId,
                 'status' => 'em_andamento',
-                'iniciado_em' => now(),
+                'iniciado_em' => $this->tempoInicio,
             ])->id;
         }
         
-        $this->tempoRestante = (int) max(0, $this->tempoLimite - now()->diffInSeconds($this->tempoInicio));
+        // Calcular tempo restante após todas as operações de banco
+        // Para novas tentativas, usar o timestamp capturado antes das operações de banco
+        // Para tentativas existentes, usar o timestamp do banco convertido para Carbon
+        $tempoInicioCarbon = Carbon::parse($this->tempoInicio);
+        $agora = Carbon::now();
+        $this->tempoRestante = (int) max(0, $this->tempoLimite - $agora->diffInSeconds($tempoInicioCarbon));
     }
 
     public function responder($resposta)
@@ -236,7 +248,10 @@ class QuizSimulado extends Component
 
     public function render()
     {
-        $this->tempoRestante = (int) max(0, $this->tempoLimite - now()->diffInSeconds($this->tempoInicio));
+        // Garantir que tempoInicio seja sempre Carbon antes de calcular diffInSeconds
+        // Isso evita problemas quando Livewire deserializa DateTime como string
+        $tempoInicioCarbon = Carbon::parse($this->tempoInicio);
+        $this->tempoRestante = (int) max(0, $this->tempoLimite - Carbon::now()->diffInSeconds($tempoInicioCarbon));
         
         if ($this->tempoRestante <= 0 && !$this->finalizado) {
             $this->finalizar();
@@ -251,6 +266,7 @@ class QuizSimulado extends Component
             'statusQuestoes' => $this->statusQuestoes,
             'tempoRestante' => $this->tempoRestante,
             'tempoLimite' => $this->tempoLimite,
+            'simulado' => $this->simulado,
         ]);
     }
 }

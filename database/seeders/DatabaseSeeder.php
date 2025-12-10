@@ -38,19 +38,19 @@ class DatabaseSeeder extends Seeder
         // Cria 10 alunos
         // User::factory(10)->create(['tipo' => 'aluno']);
 
-        // // Criar categorias usando CategoriaSeeder
-        // $this->call(CategoriaSeeder::class);
+        // Criar categorias usando CategoriaSeeder
+        $this->call(CategoriaSeeder::class);
 
-        // // Criar questões usando QuestaoSeeder
-        // $this->call(QuestaoSeeder::class);
+        // Criar questões usando QuestaoSeeder
+        $this->call(QuestaoSeeder::class);
 
-        // // Criar avisos usando AvisoSeeder
-        // $this->call(AvisoSeeder::class);
+        // Criar simulados com questões relacionadas usando SimuladoSeeder
+        $this->call(SimuladoSeeder::class);
 
-        // // Criar banners usando BannerSeeder
-        // $this->call(BannerSeeder::class);
+        // Criar avisos usando AvisoSeeder
+        $this->call(AvisoSeeder::class);
 
-        // // Cria 5 simulados
-        // Simulado::factory(5)->create();
+        // Criar banners usando BannerSeeder
+        $this->call(BannerSeeder::class);
     }
 }
