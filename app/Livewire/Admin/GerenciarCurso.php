@@ -8,10 +8,16 @@ use App\Models\Aula;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Filament\Notifications\Notification;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Actions\Contracts\HasActions;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 
-class GerenciarCurso extends Component
+class GerenciarCurso extends Component implements HasActions, HasForms
 {
     use WithFileUploads;
+    use InteractsWithActions;
+    use InteractsWithForms;
 
     // Curso
     public $cursoId;
@@ -99,6 +105,7 @@ class GerenciarCurso extends Component
         $this->cursoImagem = null;
         
         $this->showModalCurso = true;
+        $this->dispatch('open-modal', id: 'modal-curso');
     }
     
     public function salvarCurso()
@@ -124,6 +131,7 @@ class GerenciarCurso extends Component
         $this->curso->update($dados);
         
         $this->showModalCurso = false;
+        $this->dispatch('close-modal', id: 'modal-curso');
         $this->carregarCurso();
         
         Notification::make()
@@ -138,6 +146,7 @@ class GerenciarCurso extends Component
     {
         $this->resetModuloForm();
         $this->showModalModulo = true;
+        $this->dispatch('open-modal', id: 'modal-modulo');
     }
     
     public function abrirModalEditarModulo($moduloId)
@@ -150,6 +159,7 @@ class GerenciarCurso extends Component
         $this->moduloAtivo = $modulo->ativo;
         
         $this->showModalModulo = true;
+        $this->dispatch('open-modal', id: 'modal-modulo');
     }
     
     public function salvarModulo()
@@ -184,6 +194,7 @@ class GerenciarCurso extends Component
         
         $this->showModalModulo = false;
         $this->resetModuloForm();
+        $this->dispatch('close-modal', id: 'modal-modulo');
         $this->carregarCurso();
         
         Notification::make()
@@ -207,6 +218,7 @@ class GerenciarCurso extends Component
         $this->resetAulaForm();
         $this->aulaModuloId = $moduloId;
         $this->showModalAula = true;
+        $this->dispatch('open-modal', id: 'modal-aula');
     }
     
     public function abrirModalEditarAula($aulaId)
@@ -223,6 +235,7 @@ class GerenciarCurso extends Component
         $this->aulaAtivo = $aula->ativo;
         
         $this->showModalAula = true;
+        $this->dispatch('open-modal', id: 'modal-aula');
     }
     
     public function salvarAula()
@@ -267,6 +280,7 @@ class GerenciarCurso extends Component
         
         $this->showModalAula = false;
         $this->resetAulaForm();
+        $this->dispatch('close-modal', id: 'modal-aula');
         $this->carregarCurso();
         
         Notification::make()
