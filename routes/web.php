@@ -7,6 +7,8 @@ use App\Livewire\Aluno\QuizSimulado;
 use App\Livewire\Aluno\MeusResultados;
 use App\Livewire\Aluno\MinhaConta;
 use App\Livewire\Aluno\VerResultadoSimulado;
+use App\Livewire\Aluno\CursosDisponiveis;
+use App\Livewire\Aluno\AssistirCurso;
 use App\Livewire\AvisosAluno;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
@@ -67,4 +69,8 @@ Route::middleware(['auth', 'verified', 'aluno.access'])->group(function () {
     Route::get('/aluno/resultados', MeusResultados::class)->name('aluno.resultados');
     Route::get('/aluno/conta', MinhaConta::class)->name('aluno.conta');
     Route::get('/aluno/avisos', AvisosAluno::class)->name('aluno.avisos');
+    
+    // Rotas de Cursos
+    Route::get('/aluno/cursos', CursosDisponiveis::class)->name('aluno.cursos');
+    Route::get('/aluno/curso/{cursoId}/assistir', AssistirCurso::class)->name('aluno.curso.assistir');
 });
