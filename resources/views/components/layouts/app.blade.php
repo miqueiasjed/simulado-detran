@@ -27,6 +27,10 @@
                        class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ request()->routeIs('aluno.simulados') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
                         Simulados
                     </a>
+                    <a href="{{ route('aluno.cursos') }}" 
+                       class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ request()->routeIs('aluno.cursos') || request()->routeIs('aluno.curso.*') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                        Cursos
+                    </a>
                     <a href="{{ route('aluno.resultados') }}" 
                        class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition-colors {{ request()->routeIs('aluno.resultados') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
                         Meus Resultados
@@ -80,6 +84,10 @@
                 <a href="{{ route('aluno.simulados') }}" 
                    class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('aluno.simulados') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
                     Simulados
+                </a>
+                <a href="{{ route('aluno.cursos') }}" 
+                   class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('aluno.cursos') || request()->routeIs('aluno.curso.*') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">
+                    Cursos
                 </a>
                 <a href="{{ route('aluno.resultados') }}" 
                    class="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('aluno.resultados') ? 'text-indigo-600 dark:text-indigo-400' : '' }}">

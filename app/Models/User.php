@@ -104,4 +104,30 @@ class User extends Authenticatable
     {
         return $this->tipo === 'aluno';
     }
+
+    // ==================== RELACIONAMENTOS COM CURSOS ====================
+
+    public function cursos(): BelongsToMany
+    {
+        return $this->belongsToMany(Curso::class)
+                    ->withPivot('inscrito_em')
+                    ->withTimestamps();
+    }
+
+    public function aulasAssistidas(): BelongsToMany
+    {
+        return $this->belongsToMany(Aula::class)
+                    ->withPivot(['assistida', 'assistida_em'])
+                    ->withTimestamps();
+    }
+
+    public function getProgressoCurso(int $cursoId): array
+    {
+        $curso = Curso::find($cursoId);
+        if (!$curso) {
+            return ['total' => 0, 'assistidas' => 0, 'percentual' => 0];
+        }
+        
+        return $curso->getProgressoUsuario($this->id);
+    }
 }
