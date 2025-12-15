@@ -20,12 +20,13 @@ class AssistirCurso extends Component
 
     public function mount($cursoId)
     {
-        $this->cursoId = $cursoId;
+        // Garante que o ID do curso sempre seja inteiro
+        $this->cursoId = (int) $cursoId;
         $this->carregarCurso();
         
         // Verificar se o aluno está inscrito (admins podem acessar sem inscrição)
         $isAdmin = Auth::user()->isAdmin();
-        $isInscrito = Auth::user()->cursos()->where('curso_id', $cursoId)->exists();
+        $isInscrito = Auth::user()->cursos()->where('curso_id', $this->cursoId)->exists();
         
         if (!$isAdmin && !$isInscrito) {
             session()->flash('error', 'Você não está inscrito neste curso.');
@@ -104,8 +105,8 @@ class AssistirCurso extends Component
 
         $aula = Aula::findOrFail($aulaId);
         
-        // Verificar se a aula pertence ao curso
-        if ($aula->modulo->curso_id !== $this->cursoId) {
+        // Verificar se a aula pertence ao curso (comparando como inteiros)
+        if ((int) $aula->modulo->curso_id !== (int) $this->cursoId) {
             session()->flash('error', 'Aula não pertence a este curso.');
             return;
         }
@@ -128,7 +129,7 @@ class AssistirCurso extends Component
 
         $aula = Aula::findOrFail($aulaId);
         
-        if ($aula->modulo->curso_id !== $this->cursoId) {
+        if ((int) $aula->modulo->curso_id !== (int) $this->cursoId) {
             session()->flash('error', 'Aula não pertence a este curso.');
             return;
         }
@@ -146,5 +147,3 @@ class AssistirCurso extends Component
         return view('livewire.aluno.assistir-curso');
     }
 }
-
-

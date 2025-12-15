@@ -29,14 +29,14 @@ class CursoResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make('Informações do Curso')
-                    ->schema([
-                        Forms\Components\TextInput::make('titulo')
+            ->schema([
+                Forms\Components\TextInput::make('titulo')
                             ->label('Título')
-                            ->required()
+                    ->required()
                             ->maxLength(255)
                             ->placeholder('Ex: Curso Completo de Legislação'),
                         
-                        Forms\Components\Textarea::make('descricao')
+                Forms\Components\Textarea::make('descricao')
                             ->label('Descrição')
                             ->rows(4)
                             ->placeholder('Descreva o conteúdo e objetivos do curso'),
@@ -52,14 +52,14 @@ class CursoResource extends Resource
                 
                 Forms\Components\Section::make('Configurações')
                     ->schema([
-                        Forms\Components\Toggle::make('ativo')
+                Forms\Components\Toggle::make('ativo')
                             ->label('Curso Ativo')
                             ->default(true)
                             ->helperText('Cursos inativos não aparecem para os alunos'),
                         
-                        Forms\Components\TextInput::make('ordem')
+                Forms\Components\TextInput::make('ordem')
                             ->label('Ordem de Exibição')
-                            ->numeric()
+                    ->numeric()
                             ->default(0)
                             ->helperText('Números menores aparecem primeiro'),
                     ])->columns(2),
