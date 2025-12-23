@@ -1,5 +1,5 @@
 <div>
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
+    <div class="min-h-screen bg-gov-light">
         <div class="container mx-auto px-4 py-6 max-w-6xl">
             
             {{-- Header --}}

@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
+<div class="min-h-screen bg-[#f0f2f5]">
     <div class="container mx-auto px-3 sm:px-4 py-3 sm:py-6 max-w-4xl">
         
         {{-- Feedback da Média Mínima --}}
@@ -54,20 +54,19 @@
                     
                     {{-- Cronômetro --}}
                     <div class="flex items-center gap-2 sm:gap-3">
-                        <div class="text-right">
-                            <div class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Tempo Restante</div>
-                            <div class="text-lg sm:text-2xl font-bold {{ $tempoRestante <= 300 ? 'text-red-600 dark:text-red-400' : 'text-gray-800 dark:text-gray-100' }}" data-cronometro>
+                        <div class="flex items-center gap-2 bg-blue-50 text-gov-blue px-3 py-1.5 rounded-md border border-blue-100 shadow-sm">
+                            <i class="fa-solid fa-stopwatch text-gov-blue"></i>
+                            <span class="font-mono font-bold text-sm md:text-base" data-cronometro>
                                 {{ floor($tempoRestante / 60) }}:{{ str_pad(floor($tempoRestante % 60), 2, '0', STR_PAD_LEFT) }}
-                            </div>
+                            </span>
                         </div>
-                        <div class="w-2 h-2 sm:w-3 sm:h-3 {{ $tempoRestante <= 300 ? 'bg-red-500' : 'bg-green-500' }} rounded-full animate-pulse"></div>
                     </div>
                 </div>
                 
                 {{-- Barra de progresso sutil --}}
                 <div class="mt-2 sm:mt-3">
-                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
-                        <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-1.5 sm:h-2 rounded-full transition-all duration-500 ease-out" 
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+                        <div class="bg-gov-green h-2.5 rounded-full transition-all duration-500 ease-out" 
                              style="width: {{ (($indice + 1) / $total) * 100 }}%">
                         </div>
                     </div>
@@ -210,139 +209,83 @@
 
         @elseif($questaoAtual)
             {{-- Questão Atual --}}
-            <div class="bg-white dark:bg-gray-800 rounded-xl sm:rounded-3xl shadow-lg sm:shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
+            <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
                 {{-- Status da Questão --}}
-                <div class="bg-gradient-to-r from-slate-100 to-gray-100 dark:from-gray-700 dark:to-gray-600 px-4 sm:px-8 py-3 sm:py-4 border-b border-gray-200 dark:border-gray-600">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        @php
-                            $status = $statusQuestoes[$indice] ?? 'nao_respondida';
-                        @endphp
-                        @if($status === 'respondida')
-                            <span class="inline-flex items-center gap-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
-                                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                </svg>
-                                Respondida
-                            </span>
-                        @elseif($status === 'pulado')
-                            <span class="inline-flex items-center gap-1 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
-                                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                </svg>
-                                Pulada
-                            </span>
-                        @else
-                            <span class="inline-flex items-center gap-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 px-2 sm:px-3 py-1 rounded-full text-xs font-medium">
-                                <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                </svg>
-                                Não respondida
-                            </span>
-                        @endif
-                        
-                        {{-- Navegação rápida --}}
-                        <div class="flex gap-1 sm:gap-2 overflow-x-auto pb-2 sm:pb-0">
-                            @foreach(range(0, $total - 1) as $i)
-                                @php
-                                    $status = $statusQuestoes[$i] ?? 'nao_respondida';
-                                    $isAtual = $i === $indice;
-                                    $baseClasses = 'w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-lg font-semibold text-xs border-2 transition-all duration-300 flex-shrink-0 ';
-                                    
-                                    if ($isAtual) 
-                                        $classes = $baseClasses . 'border-blue-500 bg-blue-500 text-white ';
-                                    elseif ($status === 'respondida') 
-                                        $classes = $baseClasses . 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 ';
-                                    elseif ($status === 'pulado') 
-                                        $classes = $baseClasses . 'border-amber-400 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 ';
-                                    else 
-                                        $classes = $baseClasses . 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 ';
-                                @endphp
-                                <button wire:click="irParaQuestao({{ $i }})" 
-                                        class="{{ $classes }}"
-                                        title="Questão {{ $i+1 }}">
-                                    {{ $i + 1 }}
-                                </button>
-                            @endforeach
-                        </div>
+                <div class="bg-white px-6 py-4 border-b border-gray-100 flex justify-between items-center flex-wrap gap-3">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-gov-blue text-white text-sm font-bold px-3 py-1 rounded">
+                            Questão {{ $indice + 1 }}
+                        </span>
+                        <span class="text-sm text-gray-500 font-medium border-l border-gray-300 pl-3 flex items-center gap-2">
+                            <i class="fa-solid fa-traffic-light text-gray-400"></i>
+                            @if(isset($questaoAtual['categoria']) && $questaoAtual['categoria'])
+                                Assunto: {{ $questaoAtual['categoria']['nome'] }}
+                            @else
+                                Simulado
+                            @endif
+                        </span>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button class="text-gray-500 hover:text-gov-yellow text-sm flex items-center gap-1.5 transition-colors font-medium">
+                            <i class="fa-solid fa-triangle-exclamation"></i> <span class="hidden sm:inline">Reportar</span>
+                        </button>
                     </div>
                 </div>
 
                 {{-- Pergunta --}}
-                <div class="p-4 sm:p-8">
-                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6 sm:mb-8 leading-relaxed">
-                        {{ $questaoAtual['pergunta'] }}
-                    </h2>
+                <div class="p-6 md:p-10">
+                    <div class="mb-8">
+                        <p class="text-gray-800 text-lg md:text-xl leading-relaxed">
+                            {{ $questaoAtual['pergunta'] }}
+                        </p>
+                    </div>
 
                     {{-- Alternativas --}}
-                    <div class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                    <div class="space-y-4">
                         @foreach(['a', 'b', 'c', 'd'] as $alt)
                             @php
                                 $marcada = isset($respostas[$questaoAtual['id']]) && $respostas[$questaoAtual['id']] === $alt;
-                                $baseClasses = 'group relative block w-full text-left p-4 sm:p-6 rounded-xl sm:rounded-2xl border-2 transition-all duration-300 transform hover:scale-[1.02] cursor-pointer ';
-                                
-                                if($marcada) 
-                                    $altClasses = $baseClasses . 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 text-blue-900 dark:text-blue-100 shadow-lg shadow-blue-200/50 dark:shadow-blue-900/50 ring-2 ring-blue-200 dark:ring-blue-800 ';
-                                else 
-                                    $altClasses = $baseClasses . 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:border-gray-300 dark:hover:border-gray-500 hover:shadow-md ';
                             @endphp
-                            <button wire:click="responder('{{ $alt }}')" class="{{ $altClasses }}">
-                                <div class="flex items-start gap-3 sm:gap-4">
-                                    <div class="flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 {{ $marcada ? 'border-blue-500 bg-blue-500' : 'border-gray-300 dark:border-gray-500 group-hover:border-gray-400' }} flex items-center justify-center font-bold text-sm {{ $marcada ? 'text-white' : 'text-gray-500 dark:text-gray-400' }}">
-                                        {{ strtoupper($alt) }}
+                            <label class="group cursor-pointer block relative">
+                                <input type="radio" name="answer" value="{{ $alt }}" wire:click="responder('{{ $alt }}')" class="peer sr-only" @if($marcada) checked @endif>
+                                <div class="p-4 rounded border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all flex items-start gap-4 peer-checked:border-gov-blue peer-checked:bg-blue-50/50">
+                                    <div class="flex-shrink-0 w-6 h-6 rounded-full border-2 border-gray-400 group-hover:border-gov-blue peer-checked:border-gov-blue peer-checked:bg-gov-blue flex items-center justify-center transition-colors mt-0.5">
+                                        <div class="w-2.5 h-2.5 bg-white rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></div>
                                     </div>
-                                    <div class="flex-1 text-sm sm:text-base leading-relaxed">
+                                    <span class="text-gray-700 text-base md:text-lg group-hover:text-gov-blue peer-checked:text-gov-darkblue peer-checked:font-semibold">
                                         {{ $questaoAtual['alternativa_' . $alt] }}
-                                    </div>
-                                    @if($marcada)
-                                        <div class="flex-shrink-0 text-blue-500">
-                                            <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                            </svg>
-                                        </div>
-                                    @endif
+                                    </span>
                                 </div>
-                            </button>
+                            </label>
                         @endforeach
                     </div>
 
                     {{-- Botões de Navegação (parte inferior) --}}
-                    <div class="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-600">
-                        {{-- Botão Voltar --}}
-                        <button wire:click="anterior" 
-                                @if($indice === 0) disabled @endif 
-                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600 transform hover:scale-105">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                            </svg>
-                            Voltar
+                    <div class="bg-gray-50 px-6 py-5 border-t border-gray-200 flex flex-col-reverse md:flex-row justify-between items-center gap-4">
+                        
+                        <button wire:click="pular" 
+                                class="w-full md:w-auto text-yellow-700 hover:bg-yellow-50 border border-yellow-200 font-bold px-6 py-2.5 rounded transition-colors text-sm flex items-center justify-center gap-2"
+                                @if(($statusQuestoes[$indice] ?? null) === 'respondida') disabled @endif>
+                            <i class="fa-solid fa-flag"></i> Revisar depois
                         </button>
                         
-                        {{-- Botões da direita --}}
-                        <div class="flex gap-2 sm:gap-3 w-full sm:w-auto">
+                        <div class="flex gap-3 w-full md:w-auto">
+                            <button wire:click="anterior" 
+                                    @if($indice === 0) disabled @endif 
+                                    class="flex-1 md:flex-none text-gov-blue hover:bg-blue-50 border border-blue-200 font-bold px-6 py-2.5 rounded transition-colors disabled:opacity-50" disabled>
+                                <i class="fa-solid fa-chevron-left text-xs mr-1"></i> Anterior
+                            </button>
+                            
                             @if($indice < $total - 1)
-                                <button wire:click="pular" 
-                                        class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 bg-amber-500 text-white hover:bg-amber-600 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50" 
-                                        @if(($statusQuestoes[$indice] ?? null) === 'respondida') disabled @endif>
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                        <path fill-rule="evenodd" d="M3.293 15.707a1 1 0 010-1.414L7.586 10 3.293 5.707a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    Pular
-                                </button>
                                 <button wire:click="proxima" 
-                                        class="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                                    Próxima
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
-                                    </svg>
+                                        class="flex-1 md:flex-none bg-gov-blue hover:bg-gov-darkblue text-white font-bold px-8 py-2.5 rounded shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                    Próxima <i class="fa-solid fa-chevron-right text-xs"></i>
                                 </button>
                             @else
                                 <button wire:click="finalizar" 
-                                        class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 bg-gradient-to-r from-emerald-600 to-green-600 text-white hover:from-emerald-700 hover:to-green-700 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                                    <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    Finalizar Simulado
+                                        class="flex-1 md:flex-none bg-gov-blue hover:bg-gov-darkblue text-white font-bold px-8 py-2.5 rounded shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+                                    Finalizar <i class="fa-solid fa-check text-xs"></i>
                                 </button>
                             @endif
                         </div>
@@ -387,8 +330,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Mudar cor quando restar menos de 5 minutos
             if (tempoRestante <= 300) {
-                cronometroElement.classList.add('text-red-600', 'dark:text-red-400');
-                cronometroElement.classList.remove('text-gray-800', 'dark:text-gray-100');
+                cronometroElement.parentElement.classList.add('bg-red-50', 'border-red-200', 'text-gov-red');
+                cronometroElement.parentElement.classList.remove('bg-blue-50', 'border-blue-100', 'text-gov-blue');
             }
             
             tempoRestante--;

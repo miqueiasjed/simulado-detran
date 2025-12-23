@@ -1,0 +1,62 @@
+/* Tema CNH.Br para Filament Admin */
+
+/* Barra superior com gradiente */
+.fi-topbar {
+    position: relative;
+}
+
+.fi-topbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1.5px;
+    background: linear-gradient(to right, #009c3b, #f9dd16, #1351b4);
+    z-index: 10;
+}
+
+/* Customização da sidebar */
+.fi-sidebar {
+    background-color: white;
+    border-right: 1px solid #e5e7eb;
+}
+
+/* Customização dos botões primários */
+.fi-btn-primary {
+    background-color: #1351b4;
+}
+
+.fi-btn-primary:hover {
+    background-color: #0c326f;
+}
+
+/* Customização dos links ativos */
+.fi-sidebar-nav-item-active {
+    background-color: #1351b4;
+    color: white;
+}
+
+/* Customização do brand */
+.fi-brand {
+    color: #1351b4;
+}
+
+/* Scrollbar customizada */
+.fi-sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fi-sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.fi-sidebar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.fi-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+

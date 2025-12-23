@@ -6,6 +6,30 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Cores Governamentais CNH.Br */
+    --color-gov-blue: #1351b4;
+    --color-gov-darkblue: #0c326f;
+    --color-gov-yellow: #f9dd16;
+    --color-gov-green: #009c3b;
+    --color-gov-red: #e60000;
+    --color-gov-light: #f8f9fa;
 }
+
+/* Definindo as cores como variáveis CSS customizadas para uso no Tailwind */
+:root {
+    --gov-blue: #1351b4;
+    --gov-darkblue: #0c326f;
+    --gov-yellow: #f9dd16;
+    --gov-green: #009c3b;
+    --gov-red: #e60000;
+    --gov-light: #f8f9fa;
+}
+
+/* Scrollbar customizada suave */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }

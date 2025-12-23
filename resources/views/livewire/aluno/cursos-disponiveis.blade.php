@@ -1,5 +1,5 @@
 <div>
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
+    <div class="min-h-screen bg-gov-light">
         <div class="container mx-auto px-4 py-6 max-w-7xl">
             
             {{-- Header --}}
@@ -99,7 +99,7 @@
 
                                     {{-- Botão Assistir --}}
                                     <a href="{{ route('aluno.curso.assistir', $curso->id) }}" 
-                                       class="block w-full bg-primary-600 hover:bg-primary-700 text-white text-center px-4 py-2 rounded-lg font-medium transition-colors">
+                                       class="block w-full bg-gov-blue hover:bg-gov-darkblue text-white text-center px-4 py-2 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg">
                                         Continuar Assistindo
                                     </a>
                                 </div>
@@ -171,12 +171,12 @@
                                         </a>
                                     @elseif(in_array($curso->id, $cursosInscritos))
                                         <button disabled
-                                                class="w-full bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-center px-4 py-2 rounded-lg font-medium cursor-not-allowed">
+                                                class="w-full bg-gray-300 text-gray-500 text-center px-4 py-2 rounded-lg font-medium cursor-not-allowed">
                                             Já Inscrito
                                         </button>
                                     @else
                                         <button wire:click="inscrever({{ $curso->id }})"
-                                                class="w-full bg-primary-600 hover:bg-primary-700 text-white text-center px-4 py-2 rounded-lg font-medium transition-colors">
+                                                class="w-full bg-gov-blue hover:bg-gov-darkblue text-white text-center px-4 py-2 rounded-lg font-medium transition-colors shadow-md hover:shadow-lg">
                                             Inscrever-se
                                         </button>
                                     @endif

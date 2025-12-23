@@ -33,8 +33,14 @@ class AdminPanelProvider extends PanelProvider
             ->authGuard('web')
             ->brandName('Simulado DETRAN')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::hex('#1351b4'), // gov-blue
+                'success' => Color::hex('#009c3b'), // gov-green
+                'warning' => Color::hex('#f9dd16'), // gov-yellow
+                'danger' => Color::hex('#e60000'), // gov-red
             ])
+            ->font('Inter')
+            ->darkMode(false)
+            ->sidebarCollapsibleOnDesktop()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
