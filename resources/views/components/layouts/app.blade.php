@@ -59,10 +59,11 @@
                         <span class="font-medium text-sm">Simulados</span>
                     </a>
 
-                    <a href="{{ route('aluno.cursos') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('aluno.cursos') || request()->routeIs('aluno.curso.*') ? 'bg-gov-blue text-white shadow-md shadow-blue-200' : 'text-gray-600 hover:bg-blue-50 hover:text-gov-blue' }} rounded transition-colors group">
+                    {{-- Cursos temporariamente oculto --}}
+                    {{-- <a href="{{ route('aluno.cursos') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('aluno.cursos') || request()->routeIs('aluno.curso.*') ? 'bg-gov-blue text-white shadow-md shadow-blue-200' : 'text-gray-600 hover:bg-blue-50 hover:text-gov-blue' }} rounded transition-colors group">
                         <i class="fa-solid fa-book-open-reader w-5 text-center group-hover:text-gov-blue transition-colors"></i>
                         <span class="font-medium text-sm">Cursos</span>
-                    </a>
+                    </a> --}}
 
                     <a href="{{ route('aluno.resultados') }}" class="flex items-center gap-3 px-4 py-3 {{ request()->routeIs('aluno.resultados') ? 'bg-gov-blue text-white shadow-md shadow-blue-200' : 'text-gray-600 hover:bg-blue-50 hover:text-gov-blue' }} rounded transition-colors group">
                         <i class="fa-solid fa-chart-line w-5 text-center group-hover:text-gov-blue transition-colors"></i>
