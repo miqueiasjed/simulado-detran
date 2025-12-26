@@ -3,7 +3,7 @@
     <div class="relative">
         <button
             wire:click="abrirModal"
-            class="relative p-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            class="relative p-2 text-gray-700 hover:text-gov-blue transition-colors duration-200 rounded-full hover:bg-gray-100"
             title="Notificações"
         >
             <!-- Ícone do Sino -->
@@ -43,18 +43,18 @@
                     x-transition:leave="transition ease-in duration-200"
                     x-transition:leave-start="opacity-100 transform scale-100"
                     x-transition:leave-end="opacity-0 transform scale-95"
-                    class="relative w-full max-w-md mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden"
+                    class="relative w-full max-w-md mx-auto bg-white rounded-lg shadow-xl overflow-hidden"
                 >
                     <!-- Header do Modal -->
-                    <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between p-4 border-b border-gray-200">
                         <div class="flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.5 3.75a6 6 0 0 1 6 6v3.75l2.25 2.25V12a8.25 8.25 0 0 0-16.5 0v3.75L4.5 13.5V9.75a6 6 0 0 1 6-6Z"></path>
                             </svg>
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                            <h3 class="text-lg font-semibold text-gray-900">
                                 Notificações
                                 @if($avisosNaoLidos > 0)
-                                    <span class="ml-2 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                                    <span class="ml-2 bg-gov-red text-white text-xs rounded-full px-2 py-1">
                                         {{ $avisosNaoLidos }}
                                     </span>
                                 @endif
@@ -65,7 +65,7 @@
                             @if($avisosNaoLidos > 0)
                                 <button
                                     wire:click="marcarTodosComoLidos"
-                                    class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
+                                    class="text-sm text-gov-blue hover:text-gov-darkblue font-medium"
                                 >
                                     Marcar todas como lidas
                                 </button>
@@ -73,7 +73,7 @@
                             
                             <button
                                 @click="show = false; $wire.fecharModal()"
-                                class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                                class="text-gray-400 hover:text-gray-600 transition-colors"
                             >
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -85,7 +85,7 @@
                     <!-- Lista de Notificações -->
                     <div class="max-h-96 overflow-y-auto">
                         @if(count($avisos) > 0)
-                            <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                            <div class="divide-y divide-gray-200">
                                 @foreach($avisos as $aviso)
                                     @php
                                         $isLido = isset($aviso['pivot']['lido_em']);
@@ -113,7 +113,7 @@
                                         };
                                     @endphp
 
-                                    <div class="p-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors {{ $isLido ? 'opacity-75' : '' }}">
+                                    <div class="p-4 hover:bg-gray-50 transition-colors {{ $isLido ? 'opacity-75' : '' }}">
                                         <div class="flex items-start space-x-3">
                                             <!-- Ícone do tipo -->
                                             <div class="flex-shrink-0 mt-1">
@@ -135,7 +135,7 @@
                                             <!-- Conteúdo da notificação -->
                                             <div class="flex-1 min-w-0">
                                                 <div class="flex items-center justify-between">
-                                                    <h4 class="text-sm font-medium text-gray-900 dark:text-white">
+                                                    <h4 class="text-sm font-medium text-gray-900">
                                                         {{ $aviso['titulo'] }}
                                                         @if($isLido)
                                                             <span class="ml-2 text-xs text-gray-500">(Lido)</span>
@@ -148,14 +148,14 @@
                                                         </span>
                                                         
                                                         @if($aviso['mostrar_popup'])
-                                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300">
+                                                            <span class="px-2 py-1 text-xs font-medium rounded-full bg-gov-blue/10 text-gov-blue">
                                                                 Pop-up
                                                             </span>
                                                         @endif
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="mt-1 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                                                <div class="mt-1 text-sm text-gray-600 line-clamp-2">
                                                     {!! strip_tags($aviso['conteudo']) !!}
                                                 </div>
                                                 
@@ -167,7 +167,7 @@
                                                     @if(!$isLido)
                                                         <button
                                                             wire:click="marcarComoLido({{ $aviso['id'] }})"
-                                                            class="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
+                                                            class="text-xs text-gov-blue hover:text-gov-darkblue font-medium"
                                                         >
                                                             Marcar como lido
                                                         </button>
@@ -183,8 +183,8 @@
                                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5 5v-5zM10.5 3.75a6 6 0 0 1 6 6v3.75l2.25 2.25V12a8.25 8.25 0 0 0-16.5 0v3.75L4.5 13.5V9.75a6 6 0 0 1 6-6Z"></path>
                                 </svg>
-                                <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">Nenhuma notificação</h3>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhuma notificação</h3>
+                                <p class="mt-1 text-sm text-gray-500">
                                     Você está em dia com todas as notificações.
                                 </p>
                             </div>
@@ -192,14 +192,14 @@
                     </div>
 
                     <!-- Footer do Modal -->
-                    <div class="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                        <span class="text-sm text-gray-500 dark:text-gray-400">
+                    <div class="flex items-center justify-between p-4 border-t border-gray-200 bg-gray-50">
+                        <span class="text-sm text-gray-500">
                             {{ count($avisos) }} notificação(ões)
                         </span>
                         
                         <a 
                             href="{{ route('aluno.avisos') }}" 
-                            class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium"
+                            class="text-sm text-gov-blue hover:text-gov-darkblue font-medium"
                         >
                             Ver todas
                         </a>

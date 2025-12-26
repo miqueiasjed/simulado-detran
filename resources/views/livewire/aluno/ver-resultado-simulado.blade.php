@@ -1,24 +1,24 @@
 <div>
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-gray-900 dark:via-slate-900 dark:to-gray-800">
+    <div class="min-h-screen bg-gov-light">
         <div class="container mx-auto px-4 py-6 max-w-4xl">
             
             {{-- Header do Simulado --}}
-            <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-6 border border-gray-100 dark:border-gray-700">
+            <div class="bg-white rounded shadow-sm p-6 mb-6 border border-gray-200">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ $simulado->titulo }}</h1>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1">{{ $simulado->descricao }}</p>
-                        <p class="text-sm text-gray-500 dark:text-gray-500 mt-2">
+                        <h1 class="text-2xl font-bold text-gray-800">{{ $simulado->titulo }}</h1>
+                        <p class="text-gray-600 mt-1">{{ $simulado->descricao }}</p>
+                        <p class="text-sm text-gray-500 mt-2">
                             @if($tentativa->finalizado_em)
                                 Finalizado em {{ $tentativa->finalizado_em->format('d/m/Y H:i') }}
                             @else
-                                <span class="text-yellow-600 dark:text-yellow-400">Em andamento</span>
+                                <span class="text-gov-yellow">Em andamento</span>
                             @endif
                         </p>
                     </div>
                     <div class="text-right">
-                        <div class="text-sm text-gray-600 dark:text-gray-400">Tempo Utilizado</div>
-                        <div class="text-lg font-bold text-gray-800 dark:text-gray-100">
+                        <div class="text-sm text-gray-600">Tempo Utilizado</div>
+                        <div class="text-lg font-bold text-gray-800">
                             @php
                                 if ($tentativa->iniciado_em && $tentativa->finalizado_em) {
                                     $totalSegundos = $tentativa->iniciado_em->diffInSeconds($tentativa->finalizado_em);
@@ -37,7 +37,7 @@
 
             {{-- Feedback da Média do Simulado --}}
             @if($totalTentativas > 0)
-                <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-6 mb-6 border border-indigo-200 dark:border-indigo-700 overflow-hidden relative">
+                <div class="bg-gradient-to-r from-gov-blue to-gov-darkblue rounded shadow-sm p-6 mb-6 border border-blue-200 overflow-hidden relative">
                     {{-- Decorative elements --}}
                     <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
                     <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
@@ -111,8 +111,8 @@
             @endif
 
             {{-- Resultados --}}
-            <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
-                <div class="bg-gradient-to-r {{ $resultado['aprovado'] ? 'from-emerald-500 to-teal-600' : 'from-red-500 to-orange-600' }} p-8 text-center text-white">
+            <div class="bg-white rounded shadow-sm overflow-hidden border border-gray-200">
+                <div class="bg-gradient-to-r {{ $resultado['aprovado'] ? 'from-gov-green to-green-600' : 'from-gov-red to-red-600' }} p-8 text-center text-white">
                     <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                         @if($resultado['aprovado'])
                             <svg class="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -481,23 +481,19 @@
                     <div class="text-center space-y-4">
                         <div class="flex flex-col sm:flex-row gap-4 justify-center">
                             <a href="/aluno/simulados" 
-                               class="inline-flex items-center gap-2 bg-gradient-to-r from-gray-600 to-gray-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
-                                </svg>
+                               class="inline-flex items-center gap-2 bg-gov-blue hover:bg-gov-darkblue text-white px-8 py-4 rounded font-semibold text-lg shadow-md hover:shadow-lg transition-all">
+                                <i class="fa-solid fa-arrow-left"></i>
                                 Voltar para Simulados
                             </a>
                             
                             <a href="{{ route('aluno.resultados') }}?simulado={{ $simulado->id }}" 
-                               class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
-                                </svg>
+                               class="inline-flex items-center gap-2 bg-gov-green hover:bg-green-700 text-white px-8 py-4 rounded font-semibold text-lg shadow-md hover:shadow-lg transition-all">
+                                <i class="fa-solid fa-chart-line"></i>
                                 Ver Desempenho Geral
                             </a>
                         </div>
                         
-                        <p class="text-sm text-gray-500 dark:text-gray-400">
+                        <p class="text-sm text-gray-500">
                             Visualize estatísticas detalhadas e histórico de desempenho
                         </p>
                     </div>

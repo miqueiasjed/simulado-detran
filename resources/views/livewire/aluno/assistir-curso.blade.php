@@ -1,5 +1,5 @@
 <div>
-    <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="min-h-screen bg-gov-light">
         {{-- Mensagens Flash --}}
         @if (session()->has('success'))
             <div class="fixed top-4 right-4 z-50 bg-green-100 dark:bg-green-900/30 border border-green-400 dark:border-green-700 text-green-700 dark:text-green-300 px-4 py-3 rounded-lg shadow-lg">
@@ -15,7 +15,7 @@
 
         <div class="flex flex-col lg:flex-row h-screen">
             {{-- Sidebar com Módulos e Aulas --}}
-            <div class="w-full lg:w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 overflow-y-auto">
+            <div class="w-full lg:w-80 bg-white border-r border-gray-200 overflow-y-auto">
                 <div class="p-4 border-b border-gray-200 dark:border-gray-700">
                     <div class="flex items-center gap-3 mb-2">
                         <a href="{{ route('aluno.cursos') }}" 

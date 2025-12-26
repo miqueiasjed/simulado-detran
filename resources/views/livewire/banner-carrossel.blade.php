@@ -1,6 +1,6 @@
 <div>
     @if($banners->count() > 0)
-    <div class="banner-carrossel relative w-full overflow-hidden bg-gray-100 dark:bg-gray-800" 
+    <div class="banner-carrossel relative w-full overflow-hidden bg-gray-100" 
          x-data="bannerCarrossel({{ $banners->count() }})" 
          x-init="startAutoSlide()">
         
@@ -30,7 +30,7 @@
                     </picture>
                 @else
                     <!-- Banner apenas com texto (quando não há imagem) -->
-                    <div class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8 text-center h-32 sm:h-40 md:h-48 lg:h-64 xl:h-80 flex items-center justify-center">
+                    <div class="w-full bg-gradient-to-r from-gov-blue to-gov-darkblue text-white p-8 text-center h-32 sm:h-40 md:h-48 lg:h-64 xl:h-80 flex items-center justify-center">
                         <div>
                             <h3 class="text-lg md:text-2xl lg:text-3xl font-bold mb-2">{{ $banner->titulo }}</h3>
                             @if($banner->descricao)

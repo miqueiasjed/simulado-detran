@@ -1,4 +1,4 @@
-<div class="bg-white rounded-lg shadow-md p-6">
+<div class="bg-white rounded shadow-sm border border-gray-200 p-6">
     <div class="flex items-center justify-between mb-4">
         <h2 class="text-xl font-semibold text-gray-900">Avisos</h2>
         <div class="flex items-center space-x-2">
