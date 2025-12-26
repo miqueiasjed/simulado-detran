@@ -95,16 +95,14 @@
                 </div>
             @else
                 {{-- Mensagem quando não há tentativas ainda --}}
-                <div class="bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 rounded-2xl shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-600">
+                <div class="bg-gray-50 rounded shadow-sm p-6 mb-6 border border-gray-200">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-gray-300 dark:bg-gray-600 rounded-xl flex items-center justify-center">
-                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
+                        <div class="w-12 h-12 bg-gray-200 rounded-xl flex items-center justify-center">
+                            <i class="fa-solid fa-info-circle text-gray-500 text-xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300">Média do Simulado</h3>
-                            <p class="text-gray-600 dark:text-gray-400 text-sm">A média será calculada após outras tentativas serem realizadas</p>
+                            <h3 class="text-lg font-semibold text-gray-700">Média do Simulado</h3>
+                            <p class="text-gray-600 text-sm">A média será calculada após outras tentativas serem realizadas</p>
                         </div>
                     </div>
                 </div>
@@ -140,30 +138,25 @@
                 <div class="p-8">
                     {{-- Métricas Principais --}}
                     <div class="mb-8" x-data="{ isExpanded: false }">
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-2xl p-6 border border-blue-200 dark:border-blue-800">
+                        <div class="bg-gov-blue/10 rounded p-6 border border-gov-blue/20">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
-                                        <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                                            <path fill-rule="evenodd" d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/>
-                                            <path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2H4zm3 2a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/>
-                                        </svg>
+                                    <div class="w-12 h-12 bg-gov-blue/20 rounded-xl flex items-center justify-center">
+                                        <i class="fa-solid fa-chart-bar text-gov-blue text-xl"></i>
                                     </div>
                                     <div>
-                                        <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Estatísticas Detalhadas</h3>
-                                        <p class="text-gray-600 dark:text-gray-400">Métricas principais e desempenho por categoria</p>
+                                        <h3 class="text-2xl font-bold text-gray-800">Estatísticas Detalhadas</h3>
+                                        <p class="text-gray-600">Métricas principais e desempenho por categoria</p>
                                     </div>
                                 </div>
                                 
                                 <!-- Toggle Button -->
                                 <button 
                                     @click="isExpanded = !isExpanded"
-                                    class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white dark:bg-gray-700 shadow-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200"
+                                    class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white shadow-lg border border-gray-200 hover:bg-gray-50 transition-all duration-200"
                                     :class="{ 'rotate-180': isExpanded }"
                                 >
-                                    <svg class="w-5 h-5 text-gray-500 dark:text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                    </svg>
+                                    <i class="fa-solid fa-chevron-down text-gray-500 transition-transform duration-200"></i>
                                 </button>
                             </div>
                         </div>
@@ -180,10 +173,10 @@
                             <div class="mt-6 space-y-8">
                                 {{-- Métricas Principais --}}
                                 <div>
-                                    <h4 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Métricas Principais</h4>
+                                    <h4 class="text-xl font-semibold text-gray-800 mb-6">Métricas Principais</h4>
                                     
                                     {{-- Card de Aprovação --}}
-                                    <div class="mb-6 {{ $resultado['aprovado'] ? 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800' : 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' }} rounded-2xl p-6 border-2">
+                                    <div class="mb-6 {{ $resultado['aprovado'] ? 'bg-gov-green/10 border-gov-green/20' : 'bg-gov-red/10 border-gov-red/20' }} rounded p-6 border-2">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-4">
                                                 <div class="w-16 h-16 {{ $resultado['aprovado'] ? 'bg-emerald-500' : 'bg-red-500' }} rounded-xl flex items-center justify-center">
@@ -198,14 +191,14 @@
                                                     @endif
                                                 </div>
                                                 <div>
-                                                    <h5 class="text-lg font-bold {{ $resultado['aprovado'] ? 'text-emerald-800 dark:text-emerald-200' : 'text-red-800 dark:text-red-200' }}">
+                                                    <h5 class="text-lg font-bold {{ $resultado['aprovado'] ? 'text-gov-green' : 'text-gov-red' }}">
                                                         @if($resultado['aprovado'])
                                                             Aprovado!
                                                         @else
                                                             Não Aprovado
                                                         @endif
                                                     </h5>
-                                                    <p class="text-sm {{ $resultado['aprovado'] ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-700 dark:text-red-300' }}">
+                                                    <p class="text-sm text-gray-700">
                                                         @if($resultado['aprovado'])
                                                             Você atingiu a nota mínima necessária
                                                         @else
@@ -215,10 +208,10 @@
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <div class="text-3xl font-bold {{ $resultado['aprovado'] ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">
+                                                <div class="text-3xl font-bold {{ $resultado['aprovado'] ? 'text-gov-green' : 'text-gov-red' }}">
                                                     {{ number_format($resultado['nota'], 1, ',', '.') }}
                                                 </div>
-                                                <div class="text-sm {{ $resultado['aprovado'] ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">
+                                                <div class="text-sm text-gray-600">
                                                     de {{ number_format($resultado['nota_minima'], 1, ',', '.') }}
                                                 </div>
                                             </div>
@@ -226,23 +219,23 @@
                                     </div>
                                     
                                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                                        <div class="bg-emerald-50 dark:bg-emerald-900/20 rounded-2xl p-6 text-center border border-emerald-200 dark:border-emerald-800">
-                                            <div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">{{ $resultado['acertos'] }}</div>
-                                            <div class="text-sm font-medium text-emerald-700 dark:text-emerald-300">Acertos</div>
+                                        <div class="bg-gov-green/10 rounded p-6 text-center border border-gov-green/20">
+                                            <div class="text-3xl font-bold text-gov-green mb-2">{{ $resultado['acertos'] }}</div>
+                                            <div class="text-sm font-medium text-gray-700">Acertos</div>
                                         </div>
-                                        <div class="bg-red-50 dark:bg-red-900/20 rounded-2xl p-6 text-center border border-red-200 dark:border-red-800">
-                                            <div class="text-3xl font-bold text-red-600 dark:text-red-400 mb-2">{{ $resultado['erros'] }}</div>
-                                            <div class="text-sm font-medium text-red-700 dark:text-red-300">Erros</div>
+                                        <div class="bg-gov-red/10 rounded p-6 text-center border border-gov-red/20">
+                                            <div class="text-3xl font-bold text-gov-red mb-2">{{ $resultado['erros'] }}</div>
+                                            <div class="text-sm font-medium text-gray-700">Erros</div>
                                         </div>
-                                        <div class="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 text-center border border-blue-200 dark:border-blue-800">
-                                            <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">{{ $resultado['percentual'] }}%</div>
-                                            <div class="text-sm font-medium text-blue-700 dark:text-blue-300">Aproveitamento</div>
-                                            <div class="text-xs text-blue-600 dark:text-blue-400 mt-1">Nota: {{ $resultado['nota'] }}</div>
+                                        <div class="bg-gov-blue/10 rounded p-6 text-center border border-gov-blue/20">
+                                            <div class="text-3xl font-bold text-gov-blue mb-2">{{ $resultado['percentual'] }}%</div>
+                                            <div class="text-sm font-medium text-gray-700">Aproveitamento</div>
+                                            <div class="text-xs text-gray-600 mt-1">Nota: {{ $resultado['nota'] }}</div>
                                         </div>
-                                        <div class="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-6 text-center border border-purple-200 dark:border-purple-800">
-                                            <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">{{ $resultado['nota'] }}</div>
-                                            <div class="text-sm font-medium text-purple-700 dark:text-purple-300">Nota (0-10)</div>
-                                            <div class="text-xs text-purple-600 dark:text-purple-400 mt-1">{{ $resultado['percentual'] }}% aproveitamento</div>
+                                        <div class="bg-gov-yellow/10 rounded p-6 text-center border border-gov-yellow/20">
+                                            <div class="text-3xl font-bold text-yellow-700 mb-2">{{ $resultado['nota'] }}</div>
+                                            <div class="text-sm font-medium text-gray-700">Nota (0-10)</div>
+                                            <div class="text-xs text-gray-600 mt-1">{{ $resultado['percentual'] }}% aproveitamento</div>
                                         </div>
                                     </div>
                                 </div>
@@ -250,22 +243,22 @@
                                 {{-- Estatísticas por Categoria --}}
                                 @if($estatisticasCategoria->count() > 0)
                                     <div>
-                                        <h4 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Desempenho por Categoria</h4>
+                                        <h4 class="text-xl font-semibold text-gray-800 mb-6">Desempenho por Categoria</h4>
                                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                             @foreach($estatisticasCategoria as $estatistica)
-                                                <div class="bg-white dark:bg-gray-700 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 shadow-lg">
+                                                <div class="bg-white rounded p-6 border border-gray-200 shadow-sm">
                                                     <div class="flex items-center justify-between mb-4">
                                                         <div class="flex items-center gap-3">
                                                             <div class="w-4 h-4 rounded-full" style="background-color: {{ $estatistica['cor'] }}"></div>
-                                                            <span class="font-semibold text-gray-800 dark:text-gray-100">{{ $estatistica['categoria'] }}</span>
+                                                            <span class="font-semibold text-gray-800">{{ $estatistica['categoria'] }}</span>
                                                         </div>
-                                                        <div class="text-2xl font-bold text-gray-800 dark:text-gray-100">{{ $estatistica['percentual'] }}%</div>
+                                                        <div class="text-2xl font-bold text-gray-800">{{ $estatistica['percentual'] }}%</div>
                                                     </div>
-                                                    <div class="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-3">
+                                                    <div class="flex justify-between text-sm text-gray-600 mb-3">
                                                         <span>{{ $estatistica['acertos'] }}/{{ $estatistica['total'] }} acertos</span>
                                                         <span>{{ $estatistica['erros'] }} erros</span>
                                                     </div>
-                                                    <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+                                                    <div class="w-full bg-gray-200 rounded-full h-3">
                                                         <div class="h-3 rounded-full transition-all duration-300" 
                                                              style="width: {{ $estatistica['percentual'] }}%; background-color: {{ $estatistica['cor'] }};">
                                                         </div>
@@ -282,7 +275,7 @@
                     {{-- Seção de Revisão das Questões --}}
                     @if(count($resultado['respostas_detalhadas']) > 0)
                         <div class="mb-8">
-                            <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">Revisão das Questões</h3>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6">Revisão das Questões</h3>
                             
                             {{-- Resumo das Questões Erradas --}}
                             @php
@@ -291,35 +284,33 @@
                             @endphp
                             
                             @if(count($questoesErradas) > 0)
-                                <div class="bg-red-50 dark:bg-red-900/20 rounded-2xl p-6 mb-6 border border-red-200 dark:border-red-800">
+                                <div class="bg-gov-red/10 rounded p-6 mb-6 border border-gov-red/20">
                                     <div class="flex items-center gap-3 mb-4">
-                                        <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                                            <svg class="w-5 h-5 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                            </svg>
+                                        <div class="w-10 h-10 bg-gov-red/20 rounded-full flex items-center justify-center">
+                                            <i class="fa-solid fa-exclamation-triangle text-gov-red"></i>
                                         </div>
                                         <div>
-                                            <h4 class="text-lg font-semibold text-red-800 dark:text-red-200">Questões que Precisam de Revisão</h4>
-                                            <p class="text-red-600 dark:text-red-300 text-sm">Revise cuidadosamente as {{ count($questoesErradas) }} questões que você errou</p>
+                                            <h4 class="text-lg font-semibold text-gov-red">Questões que Precisam de Revisão</h4>
+                                            <p class="text-gray-700 text-sm">Revise cuidadosamente as {{ count($questoesErradas) }} questões que você errou</p>
                                         </div>
                                     </div>
                                     
                                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                         <div class="text-center">
-                                            <div class="text-2xl font-bold text-red-600 dark:text-red-400">{{ count($questoesErradas) }}</div>
-                                            <div class="text-sm text-red-700 dark:text-red-300">Questões Erradas</div>
+                                            <div class="text-2xl font-bold text-gov-red">{{ count($questoesErradas) }}</div>
+                                            <div class="text-sm text-gray-700">Questões Erradas</div>
                                         </div>
                                         <div class="text-center">
-                                            <div class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ count($questoesCorretas) }}</div>
-                                            <div class="text-sm text-emerald-700 dark:text-emerald-300">Questões Corretas</div>
+                                            <div class="text-2xl font-bold text-gov-green">{{ count($questoesCorretas) }}</div>
+                                            <div class="text-sm text-gray-700">Questões Corretas</div>
                                         </div>
                                         <div class="text-center">
-                                            <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ count($resultado['respostas_detalhadas']) }}</div>
-                                            <div class="text-sm text-blue-700 dark:text-blue-300">Total de Questões</div>
+                                            <div class="text-2xl font-bold text-gov-blue">{{ count($resultado['respostas_detalhadas']) }}</div>
+                                            <div class="text-sm text-gray-700">Total de Questões</div>
                                         </div>
                                         <div class="text-center">
-                                            <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ round((count($questoesErradas) / count($resultado['respostas_detalhadas'])) * 100, 1) }}%</div>
-                                            <div class="text-sm text-purple-700 dark:text-purple-300">Taxa de Erro</div>
+                                            <div class="text-2xl font-bold text-yellow-700">{{ round((count($questoesErradas) / count($resultado['respostas_detalhadas'])) * 100, 1) }}%</div>
+                                            <div class="text-sm text-gray-700">Taxa de Erro</div>
                                         </div>
                                     </div>
                                 </div>
@@ -329,18 +320,18 @@
                             <div class="mb-6" x-data="{ filtro: 'todas' }">
                                 <div class="flex flex-wrap gap-2 mb-4">
                                     <button @click="filtro = 'todas'" 
-                                            :class="filtro === 'todas' ? 'bg-blue-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
-                                            class="px-4 py-2 rounded-lg font-medium transition-colors">
+                                            :class="filtro === 'todas' ? 'bg-gov-blue text-white' : 'bg-gray-200 text-gray-700'"
+                                            class="px-4 py-2 rounded font-medium transition-colors">
                                         Todas as Questões ({{ count($resultado['respostas_detalhadas']) }})
                                     </button>
                                     <button @click="filtro = 'erradas'" 
-                                            :class="filtro === 'erradas' ? 'bg-red-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
-                                            class="px-4 py-2 rounded-lg font-medium transition-colors">
+                                            :class="filtro === 'erradas' ? 'bg-gov-red text-white' : 'bg-gray-200 text-gray-700'"
+                                            class="px-4 py-2 rounded font-medium transition-colors">
                                         Apenas Erradas ({{ count($questoesErradas) }})
                                     </button>
                                     <button @click="filtro = 'corretas'" 
-                                            :class="filtro === 'corretas' ? 'bg-emerald-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
-                                            class="px-4 py-2 rounded-lg font-medium transition-colors">
+                                            :class="filtro === 'corretas' ? 'bg-gov-green text-white' : 'bg-gray-200 text-gray-700'"
+                                            class="px-4 py-2 rounded font-medium transition-colors">
                                         Apenas Corretas ({{ count($questoesCorretas) }})
                                     </button>
                                 </div>
@@ -355,18 +346,18 @@
                                         @endphp
                                         
                                         <div x-show="filtro === 'todas' || filtro === '{{ $correta ? 'corretas' : 'erradas' }}'"
-                                             class="bg-white dark:bg-gray-700 rounded-2xl p-6 border-2 {{ $correta ? 'border-emerald-200 dark:border-emerald-800' : 'border-red-200 dark:border-red-800' }}">
+                                             class="bg-white rounded p-6 border-2 {{ $correta ? 'border-gov-green/30' : 'border-gov-red/30' }}">
                                             <div class="flex items-start justify-between mb-4">
                                                 <div class="flex items-center gap-3">
-                                                    <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm {{ $correta ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white' }}">
+                                                    <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm {{ $correta ? 'bg-gov-green text-white' : 'bg-gov-red text-white' }}">
                                                         {{ $index + 1 }}
                                                     </div>
                                                     <div>
-                                                        <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-100">
+                                                        <h4 class="text-lg font-semibold text-gray-800">
                                                             Questão {{ $index + 1 }}
                                                         </h4>
                                                         <div class="flex items-center gap-2 mt-1">
-                                                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium {{ $correta ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' }}">
+                                                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium {{ $correta ? 'bg-gov-green/10 text-gov-green' : 'bg-gov-red/10 text-gov-red' }}">
                                                                 @if($correta)
                                                                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                                                         <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
@@ -391,28 +382,24 @@
                                             </div>
                                             
                                             <div class="mb-4">
-                                                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">{{ $questao->pergunta }}</p>
+                                                <p class="text-gray-700 leading-relaxed">{{ $questao->pergunta }}</p>
                                             </div>
                                             
                                             @if($respostaEscolhida === 'pulado')
-                                                <div class="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 border border-amber-200 dark:border-amber-800 mb-4">
-                                                    <div class="flex items-center gap-2 text-amber-700 dark:text-amber-300">
-                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                                        </svg>
+                                                <div class="bg-gov-yellow/10 rounded-lg p-4 border border-gov-yellow/20 mb-4">
+                                                    <div class="flex items-center gap-2 text-yellow-700">
+                                                        <i class="fa-solid fa-exclamation-triangle"></i>
                                                         <span class="font-semibold">Questão pulada</span>
                                                     </div>
-                                                    <p class="text-amber-600 dark:text-amber-400 text-sm mt-1">Esta questão foi pulada durante o simulado.</p>
+                                                    <p class="text-gray-600 text-sm mt-1">Esta questão foi pulada durante o simulado.</p>
                                                 </div>
                                             @elseif($respostaEscolhida === 'nao_respondida')
-                                                <div class="bg-gray-50 dark:bg-gray-900/20 rounded-lg p-4 border border-gray-200 dark:border-gray-800 mb-4">
-                                                    <div class="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-                                                        </svg>
+                                                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 mb-4">
+                                                    <div class="flex items-center gap-2 text-gray-700">
+                                                        <i class="fa-solid fa-clock"></i>
                                                         <span class="font-semibold">Questão não respondida</span>
                                                     </div>
-                                                    <p class="text-gray-600 dark:text-gray-400 text-sm mt-1">Esta questão não foi respondida durante o simulado.</p>
+                                                    <p class="text-gray-600 text-sm mt-1">Esta questão não foi respondida durante o simulado.</p>
                                                 </div>
                                             @else
                                                 <div class="space-y-2 mb-4">
@@ -423,39 +410,33 @@
                                                             $baseClasses = 'flex items-center gap-3 p-3 rounded-lg border-2 ';
                                                             
                                                             if ($isCorreta) 
-                                                                $classes = $baseClasses . 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300';
+                                                                $classes = $baseClasses . 'border-gov-green bg-gov-green/10 text-gray-800';
                                                             elseif ($isEscolhida && !$correta) 
-                                                                $classes = $baseClasses . 'border-red-500 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300';
+                                                                $classes = $baseClasses . 'border-gov-red bg-gov-red/10 text-gray-800';
                                                             else 
-                                                                $classes = $baseClasses . 'border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400';
+                                                                $classes = $baseClasses . 'border-gray-200 text-gray-600';
                                                         @endphp
                                                         <div class="{{ $classes }}">
-                                                            <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center font-bold text-sm {{ $isCorreta ? 'border-emerald-500 bg-emerald-500 text-white' : ($isEscolhida && !$correta ? 'border-red-500 bg-red-500 text-white' : 'border-gray-300 dark:border-gray-500 text-gray-500 dark:text-gray-400') }}">
+                                                            <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center font-bold text-sm {{ $isCorreta ? 'border-gov-green bg-gov-green text-white' : ($isEscolhida && !$correta ? 'border-gov-red bg-gov-red text-white' : 'border-gray-300 text-gray-500') }}">
                                                                 {{ strtoupper($alt) }}
                                                             </div>
                                                             <span class="flex-1">{{ $questao->{'alternativa_' . $alt} }}</span>
                                                             <div class="flex items-center gap-2">
                                                                 @if($isCorreta)
-                                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-                                                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                                        </svg>
+                                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gov-green/10 text-gov-green">
+                                                                        <i class="fa-solid fa-check text-xs"></i>
                                                                         Correta
                                                                     </span>
                                                                 @endif
                                                                 @if($isEscolhida && !$correta)
-                                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300">
-                                                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                                                                        </svg>
+                                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gov-red/10 text-gov-red">
+                                                                        <i class="fa-solid fa-times text-xs"></i>
                                                                         Sua Resposta
                                                                     </span>
                                                                 @endif
                                                                 @if($isEscolhida && $correta)
-                                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-                                                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                                                        </svg>
+                                                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gov-green/10 text-gov-green">
+                                                                        <i class="fa-solid fa-check text-xs"></i>
                                                                         Sua Resposta
                                                                     </span>
                                                                 @endif
@@ -466,9 +447,9 @@
                                             @endif
                                             
                                             @if($questao->explicacao)
-                                                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-                                                    <h5 class="font-semibold text-blue-800 dark:text-blue-200 mb-2">Explicação:</h5>
-                                                    <p class="text-blue-700 dark:text-blue-300 text-sm">{{ $questao->explicacao }}</p>
+                                                <div class="bg-gov-blue/10 rounded-lg p-4 border border-gov-blue/20">
+                                                    <h5 class="font-semibold text-gov-blue mb-2">Explicação:</h5>
+                                                    <p class="text-gray-700 text-sm">{{ $questao->explicacao }}</p>
                                                 </div>
                                             @endif
                                         </div>

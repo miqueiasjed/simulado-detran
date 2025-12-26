@@ -47,25 +47,25 @@
     <h3 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-gov-blue pl-3">Acesso Rápido</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         
-        <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md hover:border-gov-blue transition-all cursor-pointer group">
+        <a href="{{ route('aluno.resultados') }}" class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md hover:border-gov-blue transition-all group">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="font-bold text-gov-blue text-lg group-hover:text-gov-darkblue transition-colors">Gerar Simulado Completo</h4>
-                    <p class="text-gray-500 text-sm mt-1">Prova padrão com 30 ou 40 questões sorteadas.</p>
+                    <h4 class="font-bold text-gov-blue text-lg group-hover:text-gov-darkblue transition-colors">Ver Resultados</h4>
+                    <p class="text-gray-500 text-sm mt-1">Visualize seu histórico de simulados e desempenho.</p>
                 </div>
-                <i class="fa-solid fa-play text-gray-300 group-hover:text-gov-blue transition-colors text-xl"></i>
+                <i class="fa-solid fa-chart-line text-gray-300 group-hover:text-gov-blue transition-colors text-xl"></i>
             </div>
-        </div>
+        </a>
 
-        <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md hover:border-gov-blue transition-all cursor-pointer group">
+        <a href="{{ route('aluno.simulados') }}" class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md hover:border-gov-blue transition-all group">
             <div class="flex justify-between items-start">
                 <div>
-                    <h4 class="font-bold text-gov-blue text-lg group-hover:text-gov-darkblue transition-colors">Revisar Erros</h4>
-                    <p class="text-gray-500 text-sm mt-1">Refaça apenas as questões que você errou anteriormente.</p>
+                    <h4 class="font-bold text-gov-blue text-lg group-hover:text-gov-darkblue transition-colors">Simulados para Fazer</h4>
+                    <p class="text-gray-500 text-sm mt-1">Acesse os simulados disponíveis e inicie sua prática.</p>
                 </div>
-                <i class="fa-solid fa-rotate-left text-gray-300 group-hover:text-gov-blue transition-colors text-xl"></i>
+                <i class="fa-solid fa-clipboard-question text-gray-300 group-hover:text-gov-blue transition-colors text-xl"></i>
             </div>
-        </div>
+        </a>
     </div>
 
     <h3 class="text-lg font-bold text-gray-800 mb-4 border-l-4 border-gov-yellow pl-3">Simulados Disponíveis</h3>
