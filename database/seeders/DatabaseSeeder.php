@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,23 +14,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Cria ou atualiza 2 admins fixos sem usar faker
-        // Usa updateOrCreate para garantir que o tipo seja sempre 'admin'
-        User::updateOrCreate(
+        // Cria os 2 admins só se ainda não existirem: rodar o seed de novo nunca
+        // troca a senha de quem já está em produção. A senha vem do .env
+        // (SEED_ADMIN_PASSWORD); sem ela, sai aleatória e se define depois.
+        $senha = env('SEED_ADMIN_PASSWORD') ?: Str::random(32);
+
+        User::firstOrCreate(
             ['email' => 'admin@admin.com'],
             [
                 'name' => 'Admin',
-                'password' => Hash::make('password'),
+                'password' => Hash::make($senha),
                 'tipo' => 'admin',
                 'email_verified_at' => now(),
             ]
         );
 
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'admin2@admin.com'],
             [
                 'name' => 'Admin 2',
-                'password' => Hash::make('password'),
+                'password' => Hash::make($senha),
                 'tipo' => 'admin',
                 'email_verified_at' => now(),
             ]
